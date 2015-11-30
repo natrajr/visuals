@@ -1,0 +1,71 @@
+<div id="gd_treemap" style="height:300px; margin: auto; min-width: 300px; max-width: 600px;"></div>
+<script>
+    var gd_url;
+    var progData;
+    var jobTitle="{title_singular}";
+    var useragent=navigator.appCodeName;
+    gd_url="http://api.glassdoor.com/api/api.htm?t.p=40910&t.k=g5zClw6oXsU&useragent="+useragent+"&format=json&v=1&action=jobs-prog&jobTitle="+jobTitle+"&callback=?";
+
+
+function callApi(url) {
+    $.getJSON(url, function(result) {
+        if (result['success'] == true) {
+            progData=result;
+        }
+        else {
+            $('[data-perma-id="XBugv"]').hide();
+        }
+    });
+}
+
+function drawChart(response_data) {
+    $('#gd_treemap').highcharts({
+        series: [{
+            type: "treemap",
+            layoutAlgorithm: 'stripes',
+            alternateStartingDirection: true,
+            levels: [{
+                level: 1,
+                layoutAlgorithm: 'sliceAndDice',
+                dataLabels: {
+                    enabled: true,
+                    align: 'center',
+                    verticalAlign: 'middle',
+                    style: {
+                        fontSize: '15px',
+                        fontWeight: 'bold'
+                    }
+                }
+            }],
+            data: [{
+                name:progData["response"]["results"][0]["nextJobTitle"],
+                color: "#EC2500",
+                value: progData["response"]["results"][0]["frequencyPercent"]
+            }, {
+                name: progData["response"]["results"][1]["nextJobTitle"],
+                color: "#ECE100",
+                value:progData["response"]["results"][1]["frequencyPercent"]
+            }, {
+                name: progData["response"]["results"][2]["nextJobTitle"],
+                color: '#EC9800',
+                value:progData["response"]["results"][2]["frequencyPercent"]
+            },  {
+                name: progData["response"]["results"][3]["nextJobTitle"],
+                color: '#00B7EB',
+                value: progData["response"]["results"][3]["frequencyPercent"]
+            }, {
+                name: progData["response"]["results"][4]["nextJobTitle"],
+                color: '#EEE8AA',
+                value: progData["response"]["results"][4]["frequencyPercent"]
+            }, {
+                name: progData["response"]["results"][5]["nextJobTitle"],
+                color: '#987654',
+                value: progData["response"]["results"][5]["frequencyPercent"]
+            }]
+        }],
+        title: {
+            text: ""
+        }
+    });
+}
+</script>
