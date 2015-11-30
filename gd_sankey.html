@@ -19,43 +19,42 @@ $(document).ready(function callAPI(url) {
     $.getJSON(gd_url, function(result) {
         if (result['success'] == true && result['response']['results'].length>0) {
         	progData=result;
-        	drawChart();
         }
-        else if (result['success'] == true && result['response']['results'].length == 0) {
+        else if (result['success'] == true && result['response']['results'].length == 0 || result['success'] == false) {
         	$('[data-perma-id="XBugv"]').hide();
         }
+    })
+    .done(function drawChart() {
+        var data = new google.visualization.DataTable();
+        var rowData=[[]];
+        data.addColumn('string', 'From');
+        data.addColumn('string', 'To');
+        data.addColumn('number', 'Glassdoor Job Count');
+        data.addColumn('number', 'Median Salary');
+        if (progData["response"]["results"].length >= 8) {
+            for (i=0;i<8; i++) {
+                rowData[i]=[jobTitle,progData["response"]["results"][i]["nextJobTitle"],Math.round(progData["response"]["results"][i]["medianSalary"]),progData["response"]["results"][i]["nationalJobCount"]];
+            }
+            data.addRows(rowData);
+        }
+
+        var options = {
+            width: 700,
+            height: 300,
+            sankey: {
+                link: { color: { fill: '#a6cee3' } },
+                node: { label: { fontName: 'Helvetica',fontSize: 14}, width: 4, nodePadding: 20 }
+            }
+        };
+
+        var chart = new google.visualization.Sankey(document.getElementById('sankey_basic'));
+        chart.draw(data, options);
+        $("#sankey_description").show();
+        $("#sankey_basic").show();
+        $("#attribution").show();
     });
 });
 
-
-function drawChart() {
-    	var data = new google.visualization.DataTable();
-    	var rowData=[[]];
-    	data.addColumn('string', 'From');
-    	data.addColumn('string', 'To');
-    	data.addColumn('number', 'Glassdoor Job Count');
-    	data.addColumn('number', 'Median Salary');
-    	if (progData["response"]["results"].length>=8) {
-    		for (i=0;i<8; i++) {
-    			rowData[i]=[jobTitle,progData["response"]["results"][i]["nextJobTitle"],Math.round(progData["response"]["results"][i]["medianSalary"]),progData["response"]["results"][i]["nationalJobCount"]];
-    		}
-    		data.addRows(rowData);
-   		}
-
-    	var options = {
-        	width: 700,
-        	height: 300,
-      		sankey: {
-        		link: { color: { fill: '#a6cee3' } },
-        		node: { label: { fontName: 'Helvetica',fontSize: 14}, width: 4, nodePadding: 20 }
-    		}
-		};
-
-    	var chart = new google.visualization.Sankey(document.getElementById('sankey_basic'));
-    	chart.draw(data, options);
-    	$("#sankey_basic").show();
-    	$("#attribution").show();
-}
 
 </script>
 
