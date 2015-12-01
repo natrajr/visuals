@@ -15,6 +15,7 @@ gd_url="http://api.glassdoor.com/api/api.htm?t.p=40910&t.k=g5zClw6oXsU&useragent
 
 $(document).ready(function callAPI(url) {
     gd_url=gd_url+"&callback=?";
+    gd_url=encodeURI(gd_url);
     console.log(gd_url);
     $.getJSON(gd_url, function(result) {
         if (result['success'] == true && result['response']['results'].length>0) {
