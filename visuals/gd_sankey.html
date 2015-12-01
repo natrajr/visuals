@@ -1,0 +1,61 @@
+<div id="sankey_basic" style="width: 900px; height: 380px; display:none; margin-bottom:-60px"></div>
+<div id="attribution" style="display:none; float:right"><a href='http://www.glassdoor.com/index.htm'>data powered by <img src='https://www.glassdoor.com/static/img/api/glassdoor_logo_80.png' title='Job Search' /></a></div>
+<script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['sankey']}]}"></script>
+
+
+<script type="text/javascript">
+var gd_url;
+var userip;
+var jobTitle="{title_singular}";
+var useragent=navigator.appCodeName;
+var progData;
+
+gd_url="http://api.glassdoor.com/api/api.htm?t.p=40910&t.k=g5zClw6oXsU&useragent="+useragent+"&format=json&v=1&action=jobs-prog&jobTitle="+jobTitle;
+
+
+$(document).ready(function callAPI(url) {
+    gd_url=gd_url+"&callback=?";
+    gd_url=encodeURI(gd_url);
+    console.log(gd_url);
+    $.getJSON(gd_url, function(result) {
+        if (result['success'] == true && result['response']['results'].length>0) {
+        	progData=result;
+        }
+        else if (result['success'] == true && result['response']['results'].length == 0 || result['success'] == false) {
+        	$('[data-perma-id="XBugv"]').hide();
+        }
+    })
+    .done(function drawChart() {
+        var data = new google.visualization.DataTable();
+        var rowData=[[]];
+        data.addColumn('string', 'From');
+        data.addColumn('string', 'To');
+        data.addColumn('number', 'Glassdoor Job Count');
+        data.addColumn('number', 'Median Salary');
+        if (progData["response"]["results"].length >= 8) {
+            for (i=0;i<8; i++) {
+                rowData[i]=[jobTitle,progData["response"]["results"][i]["nextJobTitle"],Math.round(progData["response"]["results"][i]["medianSalary"]),progData["response"]["results"][i]["nationalJobCount"]];
+            }
+            data.addRows(rowData);
+        }
+
+        var options = {
+            width: 700,
+            height: 300,
+            sankey: {
+                link: { color: { fill: '#a6cee3' } },
+                node: { label: { fontName: 'Helvetica',fontSize: 14}, width: 4, nodePadding: 20 }
+            }
+        };
+
+        var chart = new google.visualization.Sankey(document.getElementById('sankey_basic'));
+        chart.draw(data, options);
+        $("#sankey_description").show();
+        $("#sankey_basic").show();
+        $("#attribution").show();
+    });
+});
+
+
+</script>
+
