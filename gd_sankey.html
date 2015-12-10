@@ -23,7 +23,6 @@ $(document).ready(function callAPI(url) {
         }
         else if (result['success'] == true && result['response']['results'].length == 0 || result['success'] == false) {
         	$('[data-perma-id="XBugv"]').hide();
-            $('[data-section-id="3"]').hide();
         }
     })
     .done(function drawChart() {
