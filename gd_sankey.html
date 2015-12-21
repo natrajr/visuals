@@ -1,4 +1,5 @@
 <div class="detail-col full-row" id="sankey-row"><h3 class="data-block-header">Typical Career Paths</h3>
+    <p id ="sankey-description" style="display:none">This visualization shows careers which a {title_singular} often goes on to take. The width of a path represents the frequency with which a {title_singular} moves on to a certain career.</p>
 <div id="sankey_basic" style="width: 900px; height: <h3 class="data-block-header">Compare the Best Universities to Get a Degree</h3>380px; display:none; margin-bottom:-60px"></div>
 <div id="attribution" style="display:none; float:right"><a href="http://www.glassdoor.com/index.htm">data powered by <img src="https://www.glassdoor.com/static/img/api/glassdoor_logo_80.png" title="Job Search"></a></div>
 </div>
@@ -51,7 +52,7 @@ $(document).ready(function callAPI(url) {
 
         var chart = new google.visualization.Sankey(document.getElementById('sankey_basic'));
         chart.draw(data, options);
-        $("#sankey_description").show();
+        $("#sankey-description").show();
         $("#sankey_basic").show();
         $("#attribution").show();
     });
