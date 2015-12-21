@@ -1,6 +1,5 @@
-<div class="detail-col full-row" id="sankey-row" style="margin-top:-20px; margin-bottom:20px">
-  <h3 class="data-block-header">Typical Career Paths</h3>
-<div id="sankey_basic" style="width: 900px; height: 380px; display:none; margin-bottom:-60px"></div>
+<div class="detail-col full-row" id="sankey-row"><h3 class="data-block-header">Typical Career Paths</h3>
+<div id="sankey_basic" style="width: 900px; height: <h3 class="data-block-header">Compare the Best Universities to Get a Degree</h3>380px; display:none; margin-bottom:-60px"></div>
 <div id="attribution" style="display:none; float:right"><a href="http://www.glassdoor.com/index.htm">data powered by <img src="https://www.glassdoor.com/static/img/api/glassdoor_logo_80.png" title="Job Search"></a></div>
 </div>
 <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['sankey']}]}"></script>
@@ -14,18 +13,17 @@ var useragent=navigator.appCodeName;
 var progData;
 
 gd_url="http://api.glassdoor.com/api/api.htm?t.p=40910&t.k=g5zClw6oXsU&useragent="+useragent+"&format=json&v=1&action=jobs-prog&jobTitle="+jobTitle;
-
+gd_url=gd_url+"&callback=?";
+gd_url=encodeURI(gd_url);
 
 $(document).ready(function callAPI(url) {
-    gd_url=gd_url+"&callback=?";
-    gd_url=encodeURI(gd_url);
     console.log(gd_url);
     $.getJSON(gd_url, function(result) {
         if (result['success'] == true && result['response']['results'].length>0) {
             progData=result;
         }
         else if (result['success'] == true && result['response']['results'].length == 0 || result['success'] == false) {
-            $("#sankey-row").hide();
+            $('#sankey-row').hide();
         }
     })
     .done(function drawChart() {
