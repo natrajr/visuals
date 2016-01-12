@@ -1,6 +1,6 @@
 <div class="detail-col full-row" id="sankey-row"><h3 class="data-block-header">Typical Career Paths</h3>
-    <p id ="sankey-description" style="display:none">This visualization shows careers which a {title_singular} often goes on to take. The width of a path represents the frequency with which a {title_singular} moves on to a certain career.</p>
-<div id="sankey_basic" style="width: 900px; height: 380px; display:none; margin-bottom:-60px"></div>
+    <p id="sankey-description" style="display:none">This visualization shows careers which a {title_singular} often goes on to take. The width of a path represents the frequency with which a {title_singular} moves on to a certain career.</p>
+<div id="sankey_basic" style="width: 900px; height:380px; display:none; margin-bottom:-60px"></div>
 <div id="attribution" style="display:none; float:right"><a href="http://www.glassdoor.com/index.htm">data powered by <img src="https://www.glassdoor.com/static/img/api/glassdoor_logo_80.png" title="Job Search"></a></div>
 </div>
 <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['sankey']}]}"></script>
@@ -18,7 +18,6 @@ gd_url=gd_url+"&callback=?";
 gd_url=encodeURI(gd_url);
 
 $(document).ready(function callAPI(url) {
-    console.log(gd_url);
     $.getJSON(gd_url, function(result) {
         if (result['success'] == true && result['response']['results'].length>0) {
             progData=result;
